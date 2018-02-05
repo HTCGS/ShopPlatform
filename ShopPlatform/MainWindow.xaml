@@ -5,8 +5,110 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:ShopPlatform"
         mc:Ignorable="d"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Food shop" Height="350" Width="525" Closing="ClosingApplication">
     <Grid>
-        
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="auto" MinWidth="130"/>
+            <ColumnDefinition Width="auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <GridSplitter Grid.Column="1" Grid.RowSpan="2" Width="3" 
+                      HorizontalAlignment="Center"
+                      VerticalAlignment="Stretch">
+        </GridSplitter>
+
+        <Menu Grid.Column="0" Grid.Row="0" Width="45" 
+              HorizontalAlignment="Left">
+            <MenuItem Header="{DynamicResource Menu}" Height="30">
+                <MenuItem Header="{DynamicResource NewList}" Click="CreateNewList"/>
+                <MenuItem Header="{DynamicResource Open}" Click="OpenList"/>
+                <MenuItem Header="{DynamicResource Save}" Click="SaveList"/>
+                <MenuItem Header="{DynamicResource SaveAs}" Click="SaveAsList"/>
+                <MenuItem Header="{DynamicResource ClearList}" Click="ClearList"/>
+                <MenuItem Header="{DynamicResource Settings}" Click="OpenSettingsPage"/>
+            </MenuItem>
+        </Menu>
+
+        <StackPanel Grid.Column="2" Grid.Row="0" Orientation="Horizontal">
+            <Button Height="30" Width="50" Content="{DynamicResource Back}"
+                    Click="BackClick"/>
+            <StackPanel x:Name="AdminPanel" Grid.Column="2" Grid.Row="0" 
+                    Orientation="Horizontal" Visibility="Collapsed">
+                <Button Height="30" Width="50" Content="{DynamicResource Add}"
+                        Margin="5 0 0 0" Click="OpenAddWindow"/>
+                <Button Height="30" Width="50" Content="{DynamicResource Delete}"
+                        Margin="5 0 0 0" Click="OpenDeleteWindow"/>
+                <Button Height="30" Width="50" Content="{DynamicResource Edit}" 
+                        Margin="5 0 0 0" Click="OpenEditWindow"/>
+            </StackPanel>
+        </StackPanel>
+
+        <ComboBox x:Name="ShopList" Grid.Column="2" Grid.Row="0" 
+                  HorizontalAlignment="Right" Text="{DynamicResource Shop}"
+                  IsReadOnly="True" IsEditable="True" SelectionChanged="ChangeShop"/>
+
+        <!--Left items list-->
+        <DockPanel Grid.Column="0" Grid.Row="1" LastChildFill="True">
+            <TextBox x:Name="listName" DockPanel.Dock="Top" 
+                     HorizontalAlignment="Stretch" Height="25"
+                     Text="{DynamicResource ListName}" TextAlignment="Center"/>
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ItemsControl x:Name="UserItemList">
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <DockPanel>
+                                <TextBlock Text="{Binding Path=Name}"
+                                           FontSize="15" DockPanel.Dock="Left"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Path=Amount}"
+                                           FontSize="15" DockPanel.Dock="Left"
+                                           Margin="2 0 0 0"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding Path=Unit}"
+                                           FontSize="15" DockPanel.Dock="Left"
+                                           Margin="2 0 0 0"
+                                           TextWrapping="Wrap"/>
+                                <Button Content="x" FontSize="15"
+                                        HorizontalAlignment="Right"
+                                        Margin="2 0 0 0" DockPanel.Dock="Right"
+                                        Click="RemoveItem"/>
+                                <Button Content="-" FontSize="15"
+                                        HorizontalAlignment="Right"
+                                        Margin="2 0 0 0" DockPanel.Dock="Right"
+                                        Click="MinusItem"/>
+                                <Button Content="+" FontSize="15" 
+                                        HorizontalAlignment="Right"
+                                        Margin="2 0 0 0" DockPanel.Dock="Right"
+                                        Click="PlusItem"/>
+
+
+                                <!--<Button Height="35" Width="35">
+                                    <Image Source="ImagesUI\Plus.png"
+                                           Height="35" Width="35"/>
+                                </Button>
+                                <Button Height="25" Width="25" Margin="2 0 0 0">
+                                    <Image Source="ImagesUI\Minus.png"
+                                           Height="25" Width="25"/>
+                                </Button>
+                                <Button Height="25" Width="25" Margin="2 0 0 0">
+                                    <Image Source="ImagesUI\X.png"
+                                           Height="25" Width="25"/>
+                                </Button>-->
+                            </DockPanel>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
+            </ScrollViewer>
+        </DockPanel>
+
+        <!--Right shops items-->
+        <Frame x:Name="DBItems" Grid.Row="1" Grid.Column="2"
+               HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+               HorizontalContentAlignment="Stretch"
+               NavigationUIVisibility="Hidden"/>
     </Grid>
 </Window>

@@ -1,0 +1,74 @@
+﻿<Page x:Class="ShopPlatform.AdminTools.EditPage.EditUnitPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ShopPlatform.AdminTools.EditPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="EditUnitPage" Background="white">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+            <ComboBox x:Name="LanguageBox" Text="Language" IsEditable="True"
+                      IsReadOnly="True" VerticalContentAlignment="Center"
+                      SelectionChanged="LanguageChange"/>
+        </StackPanel>
+
+        <StackPanel x:Name="NamePanel" Grid.Row="1" Orientation="Vertical" 
+                    Visibility="Collapsed">
+            <StackPanel Orientation="Horizontal">
+                <Label Content="Step "/>
+                <TextBox x:Name="UnitStep" Width="50"
+                         VerticalContentAlignment="Center"/>
+            </StackPanel>
+            <Button Content="Add Language" Click="AddLanguage"/>
+
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                       LastChildFill="True" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="UnitNames">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="UnitLanguage"
+                                    ItemsSource="{Binding Path=Languages}"
+                                    Text="{Binding Path= NameLanguage}"
+                                    Width="80"
+                                    IsEditable="True" IsReadOnly="True"/>
+                                    <TextBox x:Name="UnitName" Width="80"
+                                             Text="{Binding Path=Name}"/>
+                                    <Button Content="X" Click="DeleteUnitName"
+                                            Tag="{Binding Path = Index}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ListView x:Name="UnitList" Grid.Row="1" SelectionChanged="DisplayUnits">
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Unit" Width="50"
+                                        DisplayMemberBinding="{Binding Path=Name}"/>
+                        <GridViewColumn Header="Step" Width="50"
+                                        DisplayMemberBinding="{Binding Path=Step}"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
+        </ScrollViewer>
+
+        <Button Height="30" Content="Save" Grid.Row="3"
+                    VerticalAlignment="Top" Click="SaveUnit"/>
+    </Grid>
+</Page>

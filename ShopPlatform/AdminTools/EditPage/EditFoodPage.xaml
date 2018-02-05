@@ -1,0 +1,73 @@
+﻿<Page x:Class="ShopPlatform.AdminTools.EditPage.EditFoodPage"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:ShopPlatform.AdminTools.EditPage"
+      mc:Ignorable="d" 
+      d:DesignHeight="300" d:DesignWidth="300"
+      Title="EditFoodPage" Background="white">
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition/>
+            <RowDefinition/>
+            <RowDefinition Height="30"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Orientation="Horizontal">
+             <ComboBox x:Name="FoodLanguageBox" Text="Language" IsEditable="True"
+                      IsReadOnly="True" VerticalContentAlignment="Center"
+                      SelectionChanged="LanguageChange"/>
+            <ComboBox x:Name="FoodTypeBox" Text="Type" IsEditable="True" IsReadOnly="True"
+                     VerticalContentAlignment="Center" 
+                      SelectionChanged="FoodTypeSortChange"/> 
+        </StackPanel>
+        
+        <StackPanel x:Name="NamePanel" Grid.Row="1" Orientation="Vertical" 
+                    Visibility="Collapsed">
+            <ComboBox x:Name="FoodTypeChangeBox" Text="Food type" IsEditable="True"
+                      IsReadOnly="True" VerticalContentAlignment="Center"/>
+            <Button Content="Add Language" Click="AddLanguage"/>
+
+            <DockPanel HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                       LastChildFill="True" >
+                <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ItemsControl x:Name="FoodNames">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <ComboBox x:Name="FoodLanguage"
+                                    ItemsSource="{Binding Path=Languages}"
+                                    Text="{Binding Path= NameLanguage}"
+                                    Width="80"
+                                    IsEditable="True" IsReadOnly="True"/>
+                                    <TextBox x:Name="FoodName" Width="80"
+                                             Text="{Binding Path=Name}"/>
+                                    <Button Content="X" Click="DeleteFoodName"
+                                            Tag="{Binding Path = Index}"/>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+                </ScrollViewer>
+            </DockPanel>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto">
+            <ListBox x:Name="FoodList" Grid.Row="1"
+                     SelectionChanged="DisplayFoodProperties">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path= FoodName}"
+                                   Tag="{Binding Path= FoodId}"/>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+        </ScrollViewer>
+
+        <Button Height="30" Content="Save" Grid.Row="3"
+                    VerticalAlignment="Top" Click="SaveFood"/>
+    </Grid>
+</Page>
